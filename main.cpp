@@ -23,7 +23,6 @@ map<string, int> strParse(list <string> rows){
     for(itr = rows.begin(); itr != rows.end(); itr++){
         stringstream str(*itr);
         string word;
-        map<string, int>::iterator it;
         while (str >> word){
             if (ans.find(word) == ans.end()){
                 ans[word] = 1;
@@ -52,8 +51,10 @@ int main() {
     in.close();
 
     ans = strParse(rows);
+    double sumAll = 0;
     multimap<int, string> reverseAns;
     for (pair<string, int> r : ans) {
+        sumAll += r.second;
         reverseAns.insert(pair< int, string >(r.second, r.first));
     }
 
@@ -61,7 +62,7 @@ int main() {
     if (out.is_open()) {
         auto it = reverseAns.rbegin();
         while (it != reverseAns.rend()) {
-            out << it->first << ";" << it->second << ";" << '\n';
+            out << it->second << ";" << it->first << ";" << it->first/sumAll*100 << '%' << '\n';
             it++;
         }
     }
